@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Rakan</title>
+    <link>http://rakan.me/</link>
+    <description>Recent content on Rakan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 23 Sep 2017 23:21:10 +0200</lastBuildDate>
+    
+	<atom:link href="http://rakan.me/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Python Code Navigation</title>
+      <link>http://rakan.me/emacs/python-code-navigation/</link>
+      <pubDate>Sat, 23 Sep 2017 23:21:10 +0200</pubDate>
+      
+      <guid>http://rakan.me/emacs/python-code-navigation/</guid>
+      <description>Hello world</description>
+    </item>
+    
+  </channel>
+</rss>
