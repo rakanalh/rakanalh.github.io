@@ -6,18 +6,18 @@
     <description>Recent content on Rakan</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 23 Sep 2017 23:21:10 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 24 Sep 2017 00:06:28 +0200</lastBuildDate>
     
 	<atom:link href="http://rakan.me/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Python Code Navigation</title>
-      <link>http://rakan.me/emacs/python-code-navigation/</link>
-      <pubDate>Sat, 23 Sep 2017 23:21:10 +0200</pubDate>
+      <title>About</title>
+      <link>http://rakan.me/about/</link>
+      <pubDate>Sun, 24 Sep 2017 00:06:28 +0200</pubDate>
       
-      <guid>http://rakan.me/emacs/python-code-navigation/</guid>
-      <description>Hello world</description>
+      <guid>http://rakan.me/about/</guid>
+      <description>Rakan Alhneiti </description>
     </item>
     
   </channel>
