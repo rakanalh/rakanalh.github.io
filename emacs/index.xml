@@ -13,10 +13,10 @@
     
     <item>
       <title>Setup Emacs for Python development using Pyenv</title>
-      <link>http://rakan.me/emacs/pyenv/</link>
+      <link>http://rakan.me/emacs/python-dev-with-emacs-and-pyenv/</link>
       <pubDate>Sun, 24 Sep 2017 01:09:34 +0200</pubDate>
       
-      <guid>http://rakan.me/emacs/pyenv/</guid>
+      <guid>http://rakan.me/emacs/python-dev-with-emacs-and-pyenv/</guid>
       <description>Pyenv, as advertised, is a tool that lets you work with multiple versions of Python on the same machine. You could install different versions of Python such as 2.7.12 or 3.5.2 and define which one you&#39;d like to use by executing:
 &amp;gt; pyenv install 3.5.2 &amp;gt; cd /path/i/want/to/use/3.5.2/in &amp;gt; pyenv local 3.5.2 &amp;gt; python -V  That would compile and install 3.5.2 on your machine and have it available wherever you&#39;d like to use it.</description>
     </item>
