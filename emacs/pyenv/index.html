@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Setup Emacs for Python development using Pyenv</title>
+
+<meta name="generator" content="Hugo 0.27.1" />
+<meta property="og:title" content="Setup Emacs for Python development using Pyenv" />
+<meta property="og:description" content="Pyenv, as advertised, is a tool that lets you work with multiple versions of Python on the same machine. You could install different versions of Python such as 2.7.12 or 3.5.2 and define which one you&#39;d like to use by executing:
+&gt; pyenv install 3.5.2 &gt; cd /path/i/want/to/use/3.5.2/in &gt; pyenv local 3.5.2 &gt; python -V  That would compile and install 3.5.2 on your machine and have it available wherever you&#39;d like to use it." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://rakan.me/emacs/pyenv/" />
+
+
+
+<meta property="article:published_time" content="2017-09-24T01:09:34&#43;02:00"/>
+<meta property="article:modified_time" content="2017-09-24T01:09:34&#43;02:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="//fonts.googleapis.com" />
+<link rel="dns-prefetch" href="//fonts.gstatic.com" />
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700" type="text/css" media="all" />
+<link rel="stylesheet" href="/css/style.css" type="text/css" media="all" />
+<script type="text/javascript" src="/js/scripts.js"></script>
+<link rel="shortcut icon" href="/favicon.ico">
+
+</head>
+<body class="body body-right-sidebar mobile" itemscope="itemscope" itemtype="http://schema.org/WebPage">
+	<div class="container container-outer">
+		<header class="header" itemscope="itemscope" itemtype="http://schema.org/WPHeader">
+			<div class="container container-inner clearfix">
+				<div class="logo" role="banner" itemscope="itemscope" itemtype="http://schema.org/Brand">
+					<a class="logo__link" href="/" title="Rakan" rel="home">
+						<h1 class="logo__title">Rakan</h1>
+						
+					</a>
+				</div>
+			</div>
+			
+<nav class="menu" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement">
+	<ul class="menu__list">
+		<li class="menu__item "><a class="menu__link" href="/">HOME</a></li>
+		<li class="menu__item "><a class="menu__link" href="/code/">CODE ARTICLES</a></li>
+		<li class="menu__item menu__item--active"><a class="menu__link" href="/emacs/">EMACS</a></li>
+		<li class="menu__item "><a class="menu__link" href="/about/">ABOUT</a></li>
+	</ul>
+</nav>
+
+
+		</header>
+		<div class="wrapper clearfix">
+
+
+<main class="main-content content" role="main" itemprop="mainContentOfPage">
+	<article class="post">
+		<header class="post__header clearfix">
+			<h1 class="post__title">Setup Emacs for Python development using Pyenv</h1>
+			<p class="post__meta meta">
+				<svg class="icon icon-time" height="14" viewBox="0 0 16 16" width="14" xmlns="http://www.w3.org/2000/svg"><path d="m8-.0000003c-4.4 0-8 3.6-8 8 0 4.4000003 3.6 8.0000003 8 8.0000003 4.4 0 8-3.6 8-8.0000003 0-4.4-3.6-8-8-8zm0 14.4000003c-3.52 0-6.4-2.88-6.4-6.4000003 0-3.52 2.88-6.4 6.4-6.4 3.52 0 6.4 2.88 6.4 6.4 0 3.5200003-2.88 6.4000003-6.4 6.4000003zm.4-10.4000003h-1.2v4.8l4.16 2.5600003.64-1.04-3.6-2.1600003z"/></svg>
+				<time class="post__meta-date" datetime="2017-09-24T01:09:34">September 24, 2017</time>
+			</p>
+		</header>
+		<div class="post__content clearfix">
+			<p><a href="https://github.com/pyenv/pyenv" title="Pyenv">Pyenv</a>, as advertised, is a tool that lets you work with multiple versions of Python on the same machine.
+You could install different versions of Python such as 2.7.12 or 3.5.2 and define which one you'd like to use by executing:</p>
+
+<pre><code class="language-sh">
+&gt; pyenv install 3.5.2
+&gt; cd /path/i/want/to/use/3.5.2/in
+&gt; pyenv local 3.5.2
+&gt; python -V
+</code></pre>
+
+<p>That would compile and install 3.5.2 on your machine and have it available wherever you'd like to use it.
+The <code>local</code> command tells Pyenv that you'd like to set the version of Python in the current working directory to that version.
+How does Pyenv do it? if you look at your directory structure</p>
+
+<pre><code class="language-sh">
+&gt; ls -la
+-rw-r--r--   1 rakan  staff     6B Sep 20  2016 .python-version
+</code></pre>
+
+<p>You'll notice that Pyenv places this ~.python-version~ file inside your current directory so that it can tell which
+python version this directory is using. If the file doesn't exist, then Pyenv will use the global Python version set.</p>
+
+<p>Quite convenient isn't it? this means that you can use pip and possibly other tools to setup your project with that specific Python version.
+What if you had multiple projects that use the same version? you'd think you have to use virtualenv and you'd be right.
+Enter <a href="https://github.com/pyenv/pyenv-virtualenv" title="Pyenv-virtualenv">Pyenv-virtualenv</a>, which will basically add an additional <code>virtualenv</code> command to your pyenv executable.</p>
+
+<pre><code class="language-sh">
+pyenv virtualenv 3.5.2 my-project-virtualenv-name
+</code></pre>
+
+<p>The above command will create a new virtualenv based on the specified Python version,
+but it wont set the current working directory to use that virtualenv, so you would have to be explicit by executing</p>
+
+<pre><code class="language-sh">
+pyenv local my-project-virtual-env
+</code></pre>
+
+<p>I am sure you noticed by now that Pyenv let's you deal with multiple Python versions and multiple virtualenvs as just different
+python installations that you could use each in a separate directory. So when you navigate to a directory which contains
+a ~.python-version~ file that contains a version number, you'll be using that specific Python installation.
+However, if ~.python-version~ of the current directory is a virtualenv, Pyenv will automatically activate it for you and
+any command you execute such as <code>pip install X</code> would affect that virtualenv.</p>
+
+<p>Now that we covered basic Pyenv usage. How do we integrate this with Emacs?
+Well, let's start with setting up Python first:
+There are two packages on MELPA, which i know of, that provide Python-IDE experience: <a href="https://github.com/jorgenschaefer/elpy" title="Elpy">Elpy</a> and <a href="https://github.com/proofit404/anaconda-mode" title="Anaconda-mode">Anaconda-mode</a>.
+I use Elpy, so let's see how we can configure the package. I am going to show you <code>use-package</code> snippets and
+hopefully, you'll be using that already, otherwise, please consult the package documentation:</p>
+
+<pre><code class="language-lisp">
+(use-package elpy
+    :init
+    (add-to-list 'auto-mode-alist '(&quot;\\.py$&quot; . python-mode))
+    :bind (:map elpy-mode-map
+	      (&quot;&lt;M-left&gt;&quot; . nil)
+	      (&quot;&lt;M-right&gt;&quot; . nil)
+	      (&quot;&lt;M-S-left&gt;&quot; . elpy-nav-indent-shift-left)
+	      (&quot;&lt;M-S-right&gt;&quot; . elpy-nav-indent-shift-right)
+	      (&quot;M-.&quot; . elpy-goto-definition)
+	      (&quot;M-,&quot; . pop-tag-mark))
+    :config
+    (setq elpy-rpc-backend &quot;jedi&quot;))
+
+(use-package python
+  :mode (&quot;\\.py&quot; . python-mode)
+  :config
+  (setq python-indent-offset 4)
+  (elpy-enable))
+
+</code></pre>
+
+<p>The above elisp snippet should be straight forward. In the second <code>use-package</code> statement, I am loading the Python package, which is included with your Emacs
+installation. The only notable part about it is enabling elpy by calling that designated function.
+The first part is the interesting one where we load the elpy package, rebind a couple of key strokes and define some new ones,
+in addition to setting the rpc backend to jedi. Which means that jedi has to be installed.
+If you followed the above, you should be in a directory where you have a ~.python-version~ file which contains a name of a virtualenv
+you created, so go ahead and install the dependencies mentioned in the <a href="https://github.com/jorgenschaefer/elpy#quick-installation" title="Quick Installation">Quick Installation</a> section of Elpy.</p>
+
+<pre><code class="language-sh">
+# Either of these
+pip install rope
+pip install jedi
+# flake8 for code checks
+pip install flake8
+# importmagic for automatic imports
+pip install importmagic
+# and autopep8 for automatic PEP8 formatting
+pip install autopep8
+# and yapf for code formatting
+pip install yapf
+</code></pre>
+
+<p>Great! Now if you try to use Emacs with Elpy, you'll notice that Elpy does not recognize that you've already
+installed the dependencies it requires into your current virtualenv because it doesn't see your virtualenv in the first place.
+This is where the package <code>pyenv-mode</code> comes into play, let's set it up:</p>
+
+<pre><code class="language-lisp">
+(use-package pyenv-mode
+  :init
+  (add-to-list 'exec-path &quot;~/.pyenv/shims&quot;)
+  (setenv &quot;WORKON_HOME&quot; &quot;~/.pyenv/versions/&quot;)
+  :config
+  (pyenv-mode)
+  :bind
+  (&quot;C-x p e&quot; . pyenv-activate-current-project))
+</code></pre>
+
+<p><code>use-package</code> will make sure this package is installed for you if you don't already have it. The configuration of the package
+includes setting the <code>WORKON_HOME</code> environment variable to <code>~/.pyenv/versions</code>. <code>exec-path</code> will also be updated to point to your
+~~/.pyenv/shims~. What are those?
+Whenever you navigate to a directory with a ~.python-version~ file, Pyenv would read the file's content which tell Pyenv which version you are using.
+It will create symbolic links of the Python, Pip and potentially other executables you have installed in that specific version
+into those those two directories which makes it possible for us to just configure a single directory where those executables
+will be found.</p>
+
+<p>Now what we'll need is a way to tell Emacs to update the currently activated pyenv version every time we switch projects.
+You'll notice in the <code>:bind</code> section of the above snippet that i configured <code>C-x p e</code> to activate current project's pyenv
+configuration.</p>
+
+<pre><code class="language-lisp">
+(defun pyenv-activate-current-project ()
+  &quot;Automatically activates pyenv version if .python-version file exists.&quot;
+  (interactive)
+  (f-traverse-upwards
+   (lambda (path)
+     (message path)
+     (let ((pyenv-version-path (f-expand &quot;.python-version&quot; path)))
+       (if (f-exists? pyenv-version-path)
+          (progn
+            (setq pyenv-current-version (s-trim (f-read-text pyenv-version-path 'utf-8)))
+            (pyenv-mode-set pyenv-current-version)
+            (pyvenv-workon pyenv-current-version)
+            (message (concat &quot;Setting virtualenv to &quot; pyenv-current-version))))))))
+</code></pre>
+
+<p>The above code base, would traverse the directories starting from the current buffer's directory all the way up to root
+looking for the ~.python-version~ file. If it finds this file, it reads the content and set's both <code>pyenv-mode</code> and <code>pyvenv</code> mode
+to use that version. At the end, it'll emit a message saying that the virtualenv was set to the version found when you
+press that keystroke <code>C-x p e</code>.</p>
+
+<p>In addition to that, we also need to activate the global version when we load Emacs.</p>
+
+<pre><code class="language-lisp">
+(defun pyenv-init()
+  (setq global-pyenv (replace-regexp-in-string &quot;\n&quot; &quot;&quot; (shell-command-to-string &quot;pyenv global&quot;)))
+  (message (concat &quot;Setting pyenv version to &quot; global-pyenv))
+  (pyenv-mode-set global-pyenv)
+  (defvar pyenv-current-version nil global-pyenv))
+
+(add-hook 'after-init-hook 'pyenv-init)
+</code></pre>
+
+<p>Which will initialize pyenv t o use the global version at initialization.</p>
+
+<p>Once you have this code in your Emacs configuration, You'll have a working setup for this amazing Pyenv package
+as well as Elpy.</p>
+
+<p>Enjoy Emacs!</p>
+
+		</div>
+		
+<div class="post__tags tags clearfix">
+	<svg class="icon icon-tag" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="m4.73135 3.3795002q0-.5597-.39604-.9557-.39604-.3961-.95577-.3961-.55974 0-.95578.3961-.39604.396-.39604.9557 0 .5598.39604.9558.39604.3961.95578.3961.55973 0 .95577-.3961.39604-.396.39604-.9558zm11.26865 6.0832q0 .5596998-.39076.9504998l-5.18548 5.196q-.41188.3908-.9610504.3908-.55974 0-.9505-.3908l-7.5511496-7.5616998q-.40132-.3907-.68119-1.0666-.27987-.6759-.27987-1.2357v-4.3934q0-.54920004.40132-.95050004.40132-.4013.9505-.4013h4.39339q.55974 0 1.23565.2799.67591.2798 1.07723.6812l7.55115 7.54060004q.39076.4118.39076.961z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item"><a class="tags__link" href="/tags/emacs/" rel="tag">Emacs</a></li>
+	</ul>
+</div>
+
+	</article>
+	
+	
+
+	
+<div class="comments">
+	<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "alhneiti" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+</main>
+
+<aside class="sidebar" itemscope="itemscope" itemtype="http://schema.org/WPSideBar">
+	
+<div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="//google.com/search">
+		<label>
+			<span class="screen-reader-text">Search for:</span>
+			<input class="widget-search__field" type="search" placeholder="SEARCH..." value="" name="q">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="http://rakan.me/" />
+	</form>
+</div>
+	
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/emacs/pyenv/">Setup Emacs for Python development using Pyenv</a></li>
+		</ul>
+	</div>
+</div>
+
+	
+	
+<div class="widget-social widget">
+	<h4 class="widget-social__title widget__title">Social</h4>
+	<div class="widget-social__content widget__content">
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Twitter" rel="noopener noreferrer" href="https://twitter.com/rakanalh" target="_blank">
+				<svg class="widget-social__link-icon icon-twitter" viewBox="0 0 384 312" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m384 36.9c-14.1 6.3-29.3 10.5-45.2 12.4 16.3-9.7 28.8-25.2 34.6-43.6-15.2 9-32.1 15.6-50 19.1-14.4-15.2-34.9-24.8-57.5-24.8-43.5 0-78.8 35.3-78.8 78.8 0 6.2.7 12.2 2 17.9-65.5-3.3-123.5-34.6-162.4-82.3-6.7 11.6-10.6 25.2-10.6 39.6 0 27.3 13.9 51.4 35 65.6-12.9-.4-25.1-4-35.7-9.9v1c0 38.2 27.2 70 63.2 77.2-6.6 1.8-13.6 2.8-20.8 2.8-5.1 0-10-.5-14.8-1.4 10 31.3 39.1 54.1 73.6 54.7-27 21.1-60.9 33.7-97.8 33.7-6.4 0-12.6-.4-18.8-1.1 34.9 22.4 76.3 35.4 120.8 35.4 144.9 0 224.1-120 224.1-224.1 0-3.4-.1-6.8-.2-10.2 15.4-11.1 28.7-25 39.3-40.8z"/></svg>
+				<span>Twitter</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="" rel="noopener noreferrer" href="https://linkedin.com/in/rakanalhneiti" target="_blank">
+				<svg class="widget-social__link-icon icon-linkedin" viewBox="0 0 352 352" width="24" height="24" fill="#fff" xmlns="http://www.w3.org/2000/svg"><path d="M0,40v272c0,21.9,18.1,40,40,40h272c21.9,0,40-18.1,40-40V40c0-21.9-18.1-40-40-40H40C18.1,0,0,18.1,0,40z M312,32 c4.6,0,8,3.4,8,8v272c0,4.6-3.4,8-8,8H40c-4.6,0-8-3.4-8-8V40c0-4.6,3.4-8,8-8H312z M59.5,87c0,15.2,12.3,27.5,27.5,27.5 c15.2,0,27.5-12.3,27.5-27.5c0-15.2-12.3-27.5-27.5-27.5C71.8,59.5,59.5,71.8,59.5,87z M187,157h-1v-21h-45v152h47v-75 c0-19.8,3.9-39,28.5-39c24.2,0,24.5,22.4,24.5,40v74h47v-83.5c0-40.9-8.7-72-56.5-72C208.5,132.5,193.3,145.1,187,157z M64,288h47.5 V136H64V288z"/></svg>
+				<span>LinkedIn</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="GitHub" rel="noopener noreferrer" href="https://github.com/rakanalh" target="_blank">
+				<svg class="widget-social__link-icon icon-github" viewBox="0 0 384 374" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m192 0c-106.1 0-192 85.8-192 191.7 0 84.7 55 156.6 131.3 181.9 9.6 1.8 13.1-4.2 13.1-9.2 0-4.6-.2-16.6-.3-32.6-53.4 11.6-64.7-25.7-64.7-25.7-8.7-22.1-21.3-28-21.3-28-17.4-11.9 1.3-11.6 1.3-11.6 19.3 1.4 29.4 19.8 29.4 19.8 17.1 29.3 44.9 20.8 55.9 15.9 1.7-12.4 6.7-20.8 12.2-25.6-42.6-4.8-87.5-21.3-87.5-94.8 0-20.9 7.5-38 19.8-51.4-2-4.9-8.6-24.3 1.9-50.7 0 0 16.1-5.2 52.8 19.7 15.3-4.2 31.7-6.4 48.1-6.5 16.3.1 32.7 2.2 48.1 6.5 36.7-24.8 52.8-19.7 52.8-19.7 10.5 26.4 3.9 45.9 1.9 50.7 12.3 13.4 19.7 30.5 19.7 51.4 0 73.7-44.9 89.9-87.7 94.6 6.9 5.9 13 17.6 13 35.5 0 25.6-.2 46.3-.2 52.6 0 5.1 3.5 11.1 13.2 9.2 76.2-25.5 131.2-97.3 131.2-182 0-105.9-86-191.7-192-191.7z"/></svg>
+				<span>GitHub</span>
+			</a>
+		</div>
+	</div>
+</div>
+
+	
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget__link widget__link--taglist" href="/tags/emacs" title="emacs">emacs (1)</a>
+	</div>
+</div>
+</aside>
+
+	</div>
+		<footer class="footer" itemscope="itemscope" itemtype="http://schema.org/WPFooter">
+			<div class="container container-inner">
+			  <p class="footer__copyright">&copy; 2017 Rakan. <span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad theme</a>.</span></p>
+			</div>
+		</footer>
+	</div>
+
+        <script>
+	 var navigation = responsiveNav(".menu", {
+	   navClass: "menu--collapse",
+	 });
+        </script>
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/atom-one-dark.min.css">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/languages/lisp.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>
+
