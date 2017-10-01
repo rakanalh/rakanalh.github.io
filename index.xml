@@ -27,7 +27,18 @@
       <pubDate>Sun, 24 Sep 2017 00:06:28 +0200</pubDate>
       
       <guid>http://rakan.me/about/</guid>
-      <description>Rakan Alhneiti </description>
+      <description>I am Rakan Al-Hneiti. A software developer from Amman / Jordan currently based in Berlin / Germany.
+In this blog post i&#39;ll mostly be be writing about Python / Django and Emacs among other programming experiments or side projects i might be doing for fun.
+I hope you enjoy those blog posts!</description>
+    </item>
+    
+    <item>
+      <title>Projects</title>
+      <link>http://rakan.me/projects/</link>
+      <pubDate>Sun, 24 Sep 2017 00:06:28 +0200</pubDate>
+      
+      <guid>http://rakan.me/projects/</guid>
+      <description>Python  Django Pushy: Python / Django app that provides push notifications functionality with celery. The main purpose of this app is to help you send push notifications to your users at scale. If you have lots of registered device keys, django-pushy will split your keys into smaller groups which run in parallel making the process of sending notifications faster. Pocket CLI: Pocket-CLI is an application for reading / listing and managing your GetPocket.</description>
     </item>
     
   </channel>
