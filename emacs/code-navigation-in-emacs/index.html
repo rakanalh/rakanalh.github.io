@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Setup Emacs for Python development using Pyenv</title>
+<title>Code Navigation in Emacs</title>
 
 <meta name="generator" content="Hugo 0.27.1" />
-<meta property="og:title" content="Setup Emacs for Python development using Pyenv" />
-<meta property="og:description" content="Pyenv, as advertised, is a tool that lets you work with multiple versions of Python on the same machine. You could install different versions of Python such as 2.7.12 or 3.5.2 and define which one you&#39;d like to use by executing:
-&gt; pyenv install 3.5.2 &gt; cd /path/i/want/to/use/3.5.2/in &gt; pyenv local 3.5.2 &gt; python -V  That would compile and install 3.5.2 on your machine and have it available wherever you&#39;d like to use it." />
+<meta property="og:title" content="Code Navigation in Emacs" />
+<meta property="og:description" content="When working with Python code bases, i sometimes have the need to jump between next / previous functions i am working on within the same file. As this is a common thing i would do, i tried searching for way to navigate to previous and next functions relative to my current position. There are a collection of tools that make this easy for you:
+ imenu With imenu, you are able to call =M-x imenu= or as it&#39;s bound to =C-x C-j= which will show the list of available imenu candidates and make you select one you&#39;d like to jump to." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://rakan.me/emacs/python-dev-with-emacs-and-pyenv/" />
+<meta property="og:url" content="http://rakan.me/emacs/code-navigation-in-emacs/" />
 
 
 
-<meta property="article:published_time" content="2017-09-24T01:09:34&#43;02:00"/>
-<meta property="article:modified_time" content="2017-09-24T01:09:34&#43;02:00"/>
+<meta property="article:published_time" content="2017-10-01T23:21:10&#43;02:00"/>
+<meta property="article:modified_time" content="2017-10-01T23:21:10&#43;02:00"/>
 
 
 
@@ -72,170 +72,178 @@ ga('send', 'pageview');
 <main class="main-content content" role="main" itemprop="mainContentOfPage">
 	<article class="post">
 		<header class="post__header clearfix">
-			<h1 class="post__title">Setup Emacs for Python development using Pyenv</h1>
+			<h1 class="post__title">Code Navigation in Emacs</h1>
 			<p class="post__meta meta">
 				<svg class="icon icon-time" height="14" viewBox="0 0 16 16" width="14" xmlns="http://www.w3.org/2000/svg"><path d="m8-.0000003c-4.4 0-8 3.6-8 8 0 4.4000003 3.6 8.0000003 8 8.0000003 4.4 0 8-3.6 8-8.0000003 0-4.4-3.6-8-8-8zm0 14.4000003c-3.52 0-6.4-2.88-6.4-6.4000003 0-3.52 2.88-6.4 6.4-6.4 3.52 0 6.4 2.88 6.4 6.4 0 3.5200003-2.88 6.4000003-6.4 6.4000003zm.4-10.4000003h-1.2v4.8l4.16 2.5600003.64-1.04-3.6-2.1600003z"/></svg>
-				<time class="post__meta-date" datetime="2017-09-24T01:09:34">September 24, 2017</time>
+				<time class="post__meta-date" datetime="2017-10-01T23:21:10">October 01, 2017</time>
 			</p>
 		</header>
 		<div class="post__content clearfix">
-			<p><a href="https://github.com/pyenv/pyenv" title="Pyenv">Pyenv</a>, as advertised, is a tool that lets you work with multiple versions of Python on the same machine.
-You could install different versions of Python such as 2.7.12 or 3.5.2 and define which one you'd like to use by executing:</p>
+			<p>When working with Python code bases, i sometimes have the need to jump between next / previous functions i am working on within
+the same file. As this is a common thing i would do, i tried searching for way to navigate to previous and next functions
+relative to my current position. There are a collection of tools that make this easy for you:</p>
 
-<pre><code class="language-sh">
-&gt; pyenv install 3.5.2
-&gt; cd /path/i/want/to/use/3.5.2/in
-&gt; pyenv local 3.5.2
-&gt; python -V
-</code></pre>
+<ul>
+<li>imenu</li>
+With imenu, you are able to call =M-x imenu= or as it's bound to =C-x C-j= which will show the list of available
+imenu candidates and make you select one you'd like to jump to.
+However, this approach has 2 downsides. First is the fact that you'd have to call the function manually or using
+the keystroke mentioned above and then select a candidate which leads to alot of keystrokes for such a simple task.
+Second is that it doesn't select the candidate you're currently
+inside. So if you have functions A, B, C and D, and the current position of cursor is inside D then D won't be selected
+in the candidates list. I am not sure why this happens but that's my experience.
+</ul>
 
-<p>That would compile and install 3.5.2 on your machine and have it available wherever you'd like to use it.
-The <code>local</code> command tells Pyenv that you'd like to set the version of Python in the current working directory to that version.
-How does Pyenv do it? if you look at your directory structure</p>
+<ul>
+<li><a href="https://github.com/abo-abo/swiper" title="Swiper">Swiper</a></li>
+You could also use swiper, part of the ivy package available on MELPA. Swiper is an improved isearch, which basically
+requires you to enter a search criteria and then navigate through the list until you find what you're looking for.
+Again, the downside for me is that i'd have to remember the name of the function i am looking for and then navigate
+my way into the place i want to be.
+</ul>
 
-<pre><code class="language-sh">
-&gt; ls -la
--rw-r--r--   1 rakan  staff     6B Sep 20  2016 .python-version
-</code></pre>
+<ul>
+<li><a href="https://github.com/abo-abo/avy" title="Avy">Avy</a> / <a href="https://github.com/winterTTr/ace-jump-mode" title="Ace-jump-mode">Ace-jump-mode</a></li>
+Both packages allow you to invoke them, then enter the first letter of what would match the place you want to
+navigate to, that is visible in the current buffer and markers will appear in places that match. Once you enter
+the marker letters that appear, the cursor will take you to the location you wanted. Again, alot of keystrokes.
+</ul>
 
-<p>You'll notice that Pyenv places this ~.python-version~ file inside your current directory so that it can tell which
-python version this directory is using. If the file doesn't exist, then Pyenv will use the global Python version set.</p>
+<p>There must be a better way.</p>
 
-<p>Quite convenient isn't it? this means that you can use pip and possibly other tools to setup your project with that specific Python version.
-What if you had multiple projects that use the same version? you'd think you have to use virtualenv and you'd be right.
-Enter <a href="https://github.com/pyenv/pyenv-virtualenv" title="Pyenv-virtualenv">Pyenv-virtualenv</a>, which will basically add an additional <code>virtualenv</code> command to your pyenv executable.</p>
+<p>I noticed that imenu is able to provide you with the list of candidates (classes / methods / functions) that you can navigate
+to as described in the above point about imenu. So i decided to write my own elisp functions to make the exact
+navigation behaviour i want available.</p>
 
-<pre><code class="language-sh">
-pyenv virtualenv 3.5.2 my-project-virtualenv-name
-</code></pre>
+<p>The idea that i would like to implement here is as follows:</p>
 
-<p>The above command will create a new virtualenv based on the specified Python version,
-but it wont set the current working directory to use that virtualenv, so you would have to be explicit by executing</p>
+<ol>
+<li>Get the list of candidates from imenu</li>
+<li>Figure out which candidate my cursor is inside.</li>
+<li>In case of going to the previous candidate, then navigate to <code>current item index - 1</code></li>
+<li>In case of going to the next candidate, then navigate to <code>current item index + 1</code>.</li>
+<li>Possibly, allow for circular navigation. so when reaching the top, navigate all the way to the bottom and vice versa.</li>
+</ol>
 
-<pre><code class="language-sh">
-pyenv local my-project-virtual-env
-</code></pre>
-
-<p>I am sure you noticed by now that Pyenv let's you deal with multiple Python versions and multiple virtualenvs as just different
-python installations that you could use each in a separate directory. So when you navigate to a directory which contains
-a ~.python-version~ file that contains a version number, you'll be using that specific Python installation.
-However, if ~.python-version~ of the current directory is a virtualenv, Pyenv will automatically activate it for you and
-any command you execute such as <code>pip install X</code> would affect that virtualenv.</p>
-
-<p>Now that we covered basic Pyenv usage. How do we integrate this with Emacs?
-Well, let's start with setting up Python first:
-There are two packages on MELPA, which i know of, that provide Python-IDE experience: <a href="https://github.com/jorgenschaefer/elpy" title="Elpy">Elpy</a> and <a href="https://github.com/proofit404/anaconda-mode" title="Anaconda-mode">Anaconda-mode</a>.
-I use Elpy, so let's see how we can configure the package. I am going to show you <code>use-package</code> snippets and
-hopefully, you'll be using that already, otherwise, please consult the package documentation:</p>
-
-<pre><code class="language-lisp">
-(use-package elpy
-    :init
-    (add-to-list 'auto-mode-alist '(&quot;\\.py$&quot; . python-mode))
-    :bind (:map elpy-mode-map
-	      (&quot;&lt;M-left&gt;&quot; . nil)
-	      (&quot;&lt;M-right&gt;&quot; . nil)
-	      (&quot;&lt;M-S-left&gt;&quot; . elpy-nav-indent-shift-left)
-	      (&quot;&lt;M-S-right&gt;&quot; . elpy-nav-indent-shift-right)
-	      (&quot;M-.&quot; . elpy-goto-definition)
-	      (&quot;M-,&quot; . pop-tag-mark))
-    :config
-    (setq elpy-rpc-backend &quot;jedi&quot;))
-
-(use-package python
-  :mode (&quot;\\.py&quot; . python-mode)
-  :config
-  (setq python-indent-offset 4)
-  (elpy-enable))
-
-</code></pre>
-
-<p>The above elisp snippet should be straight forward. In the second <code>use-package</code> statement, I am loading the Python package, which is included with your Emacs
-installation. The only notable part about it is enabling elpy by calling that designated function.
-The first part is the interesting one where we load the elpy package, rebind a couple of key strokes and define some new ones,
-in addition to setting the rpc backend to jedi. Which means that jedi has to be installed.
-If you followed the above, you should be in a directory where you have a ~.python-version~ file which contains a name of a virtualenv
-you created, so go ahead and install the dependencies mentioned in the <a href="https://github.com/jorgenschaefer/elpy#quick-installation" title="Quick Installation">Quick Installation</a> section of Elpy.</p>
-
-<pre><code class="language-sh">
-# Either of these
-pip install rope
-pip install jedi
-# flake8 for code checks
-pip install flake8
-# importmagic for automatic imports
-pip install importmagic
-# and autopep8 for automatic PEP8 formatting
-pip install autopep8
-# and yapf for code formatting
-pip install yapf
-</code></pre>
-
-<p>Great! Now if you try to use Emacs with Elpy, you'll notice that Elpy does not recognize that you've already
-installed the dependencies it requires into your current virtualenv because it doesn't see your virtualenv in the first place.
-This is where the package <code>pyenv-mode</code> comes into play, let's set it up:</p>
+<p>First, i figured i would need the list of candidates from imenu:</p>
 
 <pre><code class="language-lisp">
-(use-package pyenv-mode
-  :init
-  (add-to-list 'exec-path &quot;~/.pyenv/shims&quot;)
-  (setenv &quot;WORKON_HOME&quot; &quot;~/.pyenv/versions/&quot;)
-  :config
-  (pyenv-mode)
-  :bind
-  (&quot;C-x p e&quot; . pyenv-activate-current-project))
+(defun codenav-imenu-candidates ()
+  &quot;Get the candidates list from imenu.&quot;
+  (let* ((items (imenu--make-index-alist))
+	 (items (delete (assoc &quot;*Rescan*&quot; items) items)))
+    items))
 </code></pre>
 
-<p><code>use-package</code> will make sure this package is installed for you if you don't already have it. The configuration of the package
-includes setting the <code>WORKON_HOME</code> environment variable to <code>~/.pyenv/versions</code>. <code>exec-path</code> will also be updated to point to your
-~~/.pyenv/shims~. What are those?
-Whenever you navigate to a directory with a ~.python-version~ file, Pyenv would read the file's content which tell Pyenv which version you are using.
-It will create symbolic links of the Python, Pip and potentially other executables you have installed in that specific version
-into those those two directories which makes it possible for us to just configure a single directory where those executables
-will be found.</p>
+<p>That was easy, make imenu build the list from the contents of the current buffer and remove the "Rescan" item.</p>
 
-<p>Now what we'll need is a way to tell Emacs to update the currently activated pyenv version every time we switch projects.
-You'll notice in the <code>:bind</code> section of the above snippet that i configured <code>C-x p e</code> to activate current project's pyenv
-configuration.</p>
+<p>In case you have functions combined with classes and methods, the list returned will have nested lists contents of "containers"
+in your codebase such as classes. So we'd have to flatten the list out because we don't care about the nesting part at the
+moment.</p>
 
 <pre><code class="language-lisp">
-(defun pyenv-activate-current-project ()
-  &quot;Automatically activates pyenv version if .python-version file exists.&quot;
+(defun codenav-flatten-candidates (candidates)
+  &quot;Flatten CANDIDATES of imenu list.&quot;
+  (let (result)
+    (dolist (candidate candidates result)
+      (if (imenu--subalist-p candidate)
+          (setq result (append result (codenav-flatten-candidates (cdr candidate))))
+        (add-to-list 'result candidate)))
+    result))
+</code></pre>
+
+<p>The above code just goes through the list, if it encounters a nested list, it calls itself recursively and
+appends the result to the current <code>results</code> list. otherwise, append the candidate into the list and return the list
+once all items are done.</p>
+
+<p>You'll notice up to this point that the candidates list is not sorted the way we wanted. Although imenu has a config
+=imenu-sort-function= which if set to nil, then items will be returned as they appear in the file. However, mine was set
+to nil and this wasn't the case for me. So let's sort the items:</p>
+
+<pre><code class="language-lisp">
+(defun codenav-sort-candidates (candidates)
+  (sort candidates (lambda (a b) (&lt; (cdr a) (cdr b)))))
+</code></pre>
+
+<p>Simply calling the sort function to compare items <code>A</code> and <code>B</code> which both look as follows:
+=(Name-of-function . Marker)=. So comparing their markers would sort the list as we're doing above from
+the min marker to the max one.</p>
+
+<p>So up to this point we have a sorted list of candidates. Now what we have to do is figure out which candidate our cursor is
+sitting inside:</p>
+
+<pre><code class="language-lisp">
+(defun codenav-current-symbol (names-and-pos)
+  &quot;Figure out current definition by checking positions of NAMES-AND-POS against current position.&quot;
+  (let ((list-length (length names-and-pos))
+        (current-pos (point))
+        (current-index 0)
+        (next-index 0))
+    (dolist (symbol names-and-pos)
+      ;; If we reaches the end, just return the last element
+      ;; instead of returning index+1
+      (setq next-index (if (&lt; next-index (1- list-length))
+                          (1+ current-index)
+                         current-index))
+      (let* ((current-symbol-pos (marker-position (cdr symbol)))
+	     (next-symbol-pos (marker-position (cdr (nth next-index names-and-pos)))))
+        (if (and (= current-index 0) (&lt; current-pos current-symbol-pos))
+            (return 0))
+	(if (and (&gt;= current-pos current-symbol-pos) (&lt; current-pos next-symbol-pos))
+	    (return current-index)))
+      (setq current-index (1+ current-index)))
+    ;; If last item, decrement index
+    (if (eq current-index (length names-and-pos))
+	(1- current-index)
+      current-index)))
+</code></pre>
+
+<p>This goes through the sorted candidates list (we'll get to that later), and determines the <code>index</code> of the item our cursor is inside
+If the cursor is placed before the 1st item, that means we can now navigate to the last item. If the cursor is placed inside or after
+the last element, then we can jump all the way to the top. This returns the index as required accordingly.</p>
+
+<p>Now for the fun part. The above function returns the index of the candidate our cursor is inside. We now need to define
+the functions which will perform the jumps:</p>
+
+<pre><code class="language-lisp">
+(defun codenav-next-definition ()
+  &quot;Navigate to next function/class definition.&quot;
   (interactive)
-  (f-traverse-upwards
-   (lambda (path)
-     (message path)
-     (let ((pyenv-version-path (f-expand &quot;.python-version&quot; path)))
-       (if (f-exists? pyenv-version-path)
-            (let ((pyenv-current-version (s-trim (f-read-text pyenv-version-path 'utf-8))))
-              (pyenv-mode-set pyenv-current-version)
-              (message (concat &quot;Setting virtualenv to &quot; pyenv-current-version))))))))
+  (let* ((imenu-candidates (codenav-imenu-candidates))
+         (names-and-pos (codenav-sort-candidates (codenav-flatten-candidates imenu-candidates)))
+	 (current-symbol (codenav-current-symbol names-and-pos))
+         (next-symbol-index (if (&gt;= (1+ current-symbol) (length names-and-pos)) 0
+                              (1+ current-symbol)))
+	 (next-symbol (nth next-symbol-index names-and-pos)))
+    (imenu next-symbol)))
+
+
+(defun codenav-prev-definition ()
+  &quot;Navigate to previous function/class definition.&quot;
+  (interactive)
+  (let* ((imenu-candidates (codenav-imenu-candidates))
+         (names-and-pos (codenav-sort-candidates (codenav-flatten-candidates imenu-candidates)))
+	 (current-symbol (codenav-current-symbol names-and-pos))
+         (prev-symbol-index (if (&lt; (1- current-symbol) 0) (1- (length names-and-pos))
+                              (1- current-symbol)))
+	 (prev-symbol (nth prev-symbol-index names-and-pos)))
+    (imenu prev-symbol)))
 </code></pre>
 
-<p>The above code base, would traverse the directories starting from the current buffer's directory all the way up to root
-looking for the ~.python-version~ file. If it finds this file, it reads the content and set's both <code>pyenv-mode</code> and <code>pyvenv</code> mode
-to use that version. At the end, it'll emit a message saying that the virtualenv was set to the version found when you
-press that keystroke <code>C-x p e</code>.</p>
+<p>Both functions look similar. The only difference is that one of them +1's the current index to go to the next item while the other
+performs a -1 on the current index.</p>
 
-<p>In addition to that, we also need to activate the global version when we load Emacs.</p>
+<p>Once we figure out the index of the item we want to navigate to, we can call the <code>imenu</code> function to jump to that element.</p>
+
+<p>Excellent! all we have to do right now is bind those two functions to some keys. I bind them as follows:</p>
 
 <pre><code class="language-lisp">
-(defvar pyenv-current-version nil nil)
-
-(defun pyenv-init()
-  &quot;Initialize pyenv's current version to the global one.&quot;
-  (let ((global-pyenv (replace-regexp-in-string &quot;\n&quot; &quot;&quot; (shell-command-to-string &quot;pyenv global&quot;))))
-    (message (concat &quot;Setting pyenv version to &quot; global-pyenv))
-    (pyenv-mode-set global-pyenv)
-    (setq pyenv-current-version global-pyenv)))
-
-(add-hook 'after-init-hook 'pyenv-init)
+(global-set-key (kbd &quot;M-i&quot;) (lambda () (interactive) (codenav-prev-definition)))
+(global-set-key (kbd &quot;M-k&quot;) (lambda () (interactive) (codenav-next-definition)))
 </code></pre>
 
-<p>Which will initialize pyenv to use the global version at initialization.</p>
-
-<p>Once you have this code in your Emacs configuration, You'll have a working setup for this amazing Pyenv package
-as well as Elpy.</p>
+<p>And now you'll be able to enjoy navigating your way through class definitions / methods and functions in the current file easily
+with your preferred keystroke. The even better part of it is, this will work with any language imenu is able to work with.</p>
 
 <p>Enjoy Emacs!</p>
 
@@ -252,8 +260,8 @@ as well as Elpy.</p>
 	
 	
 <nav class="post-nav row clearfix" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement">
-	<div class="post-nav__item post-nav__item--next col-1-2">
-		<a class="post-nav__link" href="/emacs/code-navigation-in-emacs/" rel="next"><span class="post-nav__caption">Next»</span><p class="post-nav__post-title">Code Navigation in Emacs</p></a>
+	<div class="post-nav__item post-nav__item--prev col-1-2">
+		<a class="post-nav__link" href="/emacs/python-dev-with-emacs-and-pyenv/" rel="prev"><span class="post-nav__caption">«Previous</span><p class="post-nav__post-title">Setup Emacs for Python development using Pyenv</p></a>
 	</div>
 </nav>
 

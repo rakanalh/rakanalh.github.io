@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://rakan.me/emacs/code-navigation-in-emacs/</loc>
+    <lastmod>2017-10-01T23:21:10+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://rakan.me/emacs/python-dev-with-emacs-and-pyenv/</loc>
     <lastmod>2017-09-24T01:09:34+02:00</lastmod>
   </url>
@@ -24,25 +29,25 @@
   
   <url>
     <loc>http://rakan.me/emacs/</loc>
-    <lastmod>2017-09-24T01:09:34+02:00</lastmod>
+    <lastmod>2017-10-01T23:21:10+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://rakan.me/tags/emacs/</loc>
-    <lastmod>2017-09-24T01:09:34+02:00</lastmod>
+    <lastmod>2017-10-01T23:21:10+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://rakan.me/</loc>
-    <lastmod>2017-09-24T01:09:34+02:00</lastmod>
+    <lastmod>2017-10-01T23:21:10+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://rakan.me/tags/</loc>
-    <lastmod>2017-09-24T01:09:34+02:00</lastmod>
+    <lastmod>2017-10-01T23:21:10+02:00</lastmod>
     <priority>0</priority>
   </url>
   

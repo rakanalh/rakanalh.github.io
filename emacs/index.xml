@@ -6,10 +6,20 @@
     <description>Recent content in Emacs on Rakan</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 24 Sep 2017 01:09:34 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 01 Oct 2017 23:21:10 +0200</lastBuildDate>
     
 	<atom:link href="http://rakan.me/emacs/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Code Navigation in Emacs</title>
+      <link>http://rakan.me/emacs/code-navigation-in-emacs/</link>
+      <pubDate>Sun, 01 Oct 2017 23:21:10 +0200</pubDate>
+      
+      <guid>http://rakan.me/emacs/code-navigation-in-emacs/</guid>
+      <description>When working with Python code bases, i sometimes have the need to jump between next / previous functions i am working on within the same file. As this is a common thing i would do, i tried searching for way to navigate to previous and next functions relative to my current position. There are a collection of tools that make this easy for you:
+ imenu With imenu, you are able to call =M-x imenu= or as it&#39;s bound to =C-x C-j= which will show the list of available imenu candidates and make you select one you&#39;d like to jump to.</description>
+    </item>
     
     <item>
       <title>Setup Emacs for Python development using Pyenv</title>
