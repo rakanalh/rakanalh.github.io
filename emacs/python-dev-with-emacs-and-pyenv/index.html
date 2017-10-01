@@ -207,11 +207,9 @@ configuration.</p>
      (message path)
      (let ((pyenv-version-path (f-expand &quot;.python-version&quot; path)))
        (if (f-exists? pyenv-version-path)
-          (progn
-            (setq pyenv-current-version (s-trim (f-read-text pyenv-version-path 'utf-8)))
-            (pyenv-mode-set pyenv-current-version)
-            (pyvenv-workon pyenv-current-version)
-            (message (concat &quot;Setting virtualenv to &quot; pyenv-current-version))))))))
+            (let ((pyenv-current-version (s-trim (f-read-text pyenv-version-path 'utf-8))))
+              (pyenv-mode-set pyenv-current-version)
+              (message (concat &quot;Setting virtualenv to &quot; pyenv-current-version))))))))
 </code></pre>
 
 <p>The above code base, would traverse the directories starting from the current buffer's directory all the way up to root
@@ -222,16 +220,19 @@ press that keystroke <code>C-x p e</code>.</p>
 <p>In addition to that, we also need to activate the global version when we load Emacs.</p>
 
 <pre><code class="language-lisp">
+(defvar pyenv-current-version nil nil)
+
 (defun pyenv-init()
-  (setq global-pyenv (replace-regexp-in-string &quot;\n&quot; &quot;&quot; (shell-command-to-string &quot;pyenv global&quot;)))
-  (message (concat &quot;Setting pyenv version to &quot; global-pyenv))
-  (pyenv-mode-set global-pyenv)
-  (defvar pyenv-current-version nil global-pyenv))
+  &quot;Initialize pyenv's current version to the global one.&quot;
+  (let ((global-pyenv (replace-regexp-in-string &quot;\n&quot; &quot;&quot; (shell-command-to-string &quot;pyenv global&quot;))))
+    (message (concat &quot;Setting pyenv version to &quot; global-pyenv))
+    (pyenv-mode-set global-pyenv)
+    (setq pyenv-current-version global-pyenv)))
 
 (add-hook 'after-init-hook 'pyenv-init)
 </code></pre>
 
-<p>Which will initialize pyenv t o use the global version at initialization.</p>
+<p>Which will initialize pyenv to use the global version at initialization.</p>
 
 <p>Once you have this code in your Emacs configuration, You'll have a working setup for this amazing Pyenv package
 as well as Elpy.</p>
