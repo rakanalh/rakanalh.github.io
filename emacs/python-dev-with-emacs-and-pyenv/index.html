@@ -237,6 +237,22 @@ press that keystroke <code>C-x p e</code>.</p>
 <p>Once you have this code in your Emacs configuration, You'll have a working setup for this amazing Pyenv package
 as well as Elpy.</p>
 
+<p>Update(02.10.2017):
+As @componaut mentioned in the comment, the function <code>locate-dominating-file</code> can be used instead of <code>f-traverse-upwards</code>.
+This makes <code>pyenv-activate-current-project</code> look as follows:</p>
+
+<pre><code class="language-lisp">
+(defun pyenv-activate-current-project ()
+  &quot;Automatically activates pyenv version if .python-version file exists.&quot;
+  (interactive)
+  (let ((python-version-directory (locate-dominating-file (buffer-file-name) &quot;.python-version&quot;)))
+    (if python-version-directory
+        (let* ((pyenv-version-path (f-expand &quot;.python-version&quot; python-version-directory))
+               (pyenv-current-version (s-trim (f-read-text pyenv-version-path 'utf-8))))
+          (pyenv-mode-set pyenv-current-version)
+          (message (concat &quot;Setting virtualenv to &quot; pyenv-current-version))))))
+</code></pre>
+
 <p>Enjoy Emacs!</p>
 
 		</div>
